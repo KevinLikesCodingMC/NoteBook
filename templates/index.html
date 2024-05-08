@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NoteBook v{{ version }}</title>
+    <link rel="stylesheet" href="/resource/editormd/css/editormd.css" />
+    <link rel="stylesheet" href="/resource/notebook/main.css">
+    <script src="/resource/jquery/jquery.min.js"></script>
+    <script src="/resource/editormd/lib/marked.min.js"></script>
+    <script src="/resource/editormd/lib/prettify.min.js"></script>
+    <script src="/resource/editormd/editormd.min.js"></script>
+    <script src="/resource/notebook/main.js"></script>
+</head>
+<body>
+<div class="main-content">
+    <div class="main-content-left">
+        <div class="main-content-left-card">
+            <div id="editor-html-view">
+                <textarea style="display:none;">{{ content|safe }}</textarea>
+            </div>
+        </div>
+    </div>
+    <div class="main-content-right">
+        <h2>NoteBook v{{ version }}</h2>
+        <p>{{ name }}</p>
+        <h3>Menu</h3>
+        <a class = "blue-link" href="/edit/new/">create new notebook</a>
+    </div>
+</div>
+<script src="/resource/notebook/editor-html-view.js"></script>
+</body>
+</html>

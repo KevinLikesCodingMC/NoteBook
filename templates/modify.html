@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="/resource/editormd/css/editormd.css" />
+    <link rel="stylesheet" href="/resource/notebook/main.css">
+    <script src="/resource/jquery/jquery.min.js"></script>
+    <script src="/resource/editormd/lib/marked.min.js"></script>
+    <script src="/resource/editormd/lib/prettify.min.js"></script>
+    <script src="/resource/editormd/editormd.min.js"></script>
+    <script src="/resource/notebook/main.js"></script>
+</head>
+<body>
+<div class="main-content">
+    <div class="main-content-left">
+        <div class="main-content-left-card">
+            <h2>Edit the notebook</h2>
+            <form action="/upload/edit/" method="POST" id="main_form">
+                title: <input type="text" value="{{ title }}" name="title"> <br><br>
+                <input type="text" style="display:none;" value="{{ title }}" name="pre">
+                <div id="editor">
+                    <textarea style="display:none;" name="content">{{ content|safe }}</textarea>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="main-content-right">
+        <h2>NoteBook v{{ version }}</h2>
+        <p>Notebook: {{ title }}</p>
+        <h3>Menu</h3>
+        <a class="blue-link" onclick="upload_edit();">save this notebook</a>
+    </div>
+</div>
+<script src="/resource/notebook/editor.js"></script>
+</body>
+</html>

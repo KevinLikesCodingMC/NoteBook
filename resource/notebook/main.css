@@ -1,0 +1,21 @@
+h1, h2, h3, h4, h5, h6 {
+    font-family: Arial, Helvetica, sans-serif;
+}
+.main-content-left {
+    float: left;
+    width: 75%;
+}
+.main-content-left-card {
+    padding: 0 30px;
+   }
+.main-content-right {
+    float: left;
+    width: 25%;
+}
+.blue-link {
+    color: #4183c4;
+    text-decoration: none;
+}
+.blue-link:hover {
+    text-decoration: underline;
+}
