@@ -17,8 +17,7 @@ def fresh_list():
         for name in lst:
             if name == "index.md":
                 continue
-            sz = len(name)
-            name = name[:(sz - 3)]
+            name = os.path.splitext(name)[0]
             f.write(mdg.markdown_link(name, '/notebook/' + name))
             f.write('\n')
 
@@ -61,14 +60,22 @@ def modify(request, name):
     return render(request, "modify.html", con)
 
 
+def available_filename(name, path):
+    if not os.path.exists(os.path.join(path, name)):
+        return name
+    cnt = 1
+    names = os.path.splitext(name)
+    while os.path.exists(os.path.join(path, names[0] + '_' + str(cnt) + names[1])):
+        cnt += 1
+    return names[0] + '_' + str(cnt) + names[1]
+
+
 @csrf_exempt
 def upload_image(request):
     if request.method == "POST":
         try:
             img = request.FILES['editormd-image-file']
-            name = img.name
-            while os.path.exists(os.path.join(BASE_DIR, "image/" + name)):
-                name = str(random.randint(1, 1000)) + '_' + name
+            name = available_filename(img.name, os.path.join(BASE_DIR, "image/"))
             with open(os.path.join(BASE_DIR, "image/" + name), "wb") as f:
                 for chunk in img.chunks():
                     f.write(chunk)
@@ -78,24 +85,18 @@ def upload_image(request):
             return JsonResponse({"success": 0, "message": "Failed"})
 
 
-def available_notebook_name(name):
-    while os.path.exists(os.path.join(BASE_DIR, f"notebooks/{name}.md")):
-        name = name + '_' + str(random.randint(1, 1000))
-    return name
-
-
 @csrf_exempt
 def upload_modify(request):
     if request.POST:
         pre = request.POST['pre']
         if os.path.exists(os.path.join(BASE_DIR, f"notebooks/{pre}.md")):
             os.remove(os.path.join(BASE_DIR, f"notebooks/{pre}.md"))
-        name = available_notebook_name(request.POST['title'])
-        with open(os.path.join(BASE_DIR, f"notebooks/{name}.md"), "w", encoding='utf-8') as f:
+        name = available_filename(request.POST['title'] + ".md", os.path.join(BASE_DIR, "notebooks/"))
+        with open(os.path.join(BASE_DIR, f"notebooks/{name}"), "w", encoding='utf-8') as f:
             content = request.POST['content']
             content = str(content).replace('\r', '')
             f.write(content)
-        return redirect('/notebook/' + name)
+        return redirect('/notebook/' + os.path.splitext(name)[0])
     return HttpResponse("404")
 
 
