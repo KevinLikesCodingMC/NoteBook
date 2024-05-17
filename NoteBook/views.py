@@ -1,5 +1,5 @@
 import os
-import random
+import datetime
 from .settings import BASE_DIR
 from django.shortcuts import render
 from django.shortcuts import redirect
@@ -10,27 +10,13 @@ from . import mdg
 from . import info
 
 
-def fresh_list():
-    lst = os.listdir(os.path.join(BASE_DIR, "notebooks/"))
-    with open(os.path.join(BASE_DIR, "notebooks/index.md"), "w", encoding='utf-8') as f:
-        f.write("# Notebook List\n")
-        for name in lst:
-            if name == "index.md":
-                continue
-            name = os.path.splitext(name)[0]
-            f.write(mdg.markdown_link(name, '/notebook/' + name))
-            f.write('\n')
-
-
 def index(request):
-    fresh_list()
-    try:
-        with open(os.path.join(BASE_DIR, "notebooks/index.md"), "r", encoding='utf-8') as f:
-            content = f.read()
-    except FileNotFoundError as e:
-        content = e
+    file_name_lst = os.listdir(os.path.join(BASE_DIR, "notebooks/"))
+    notebook_lst = []
+    for name in file_name_lst:
+        notebook_lst.append(os.path.splitext(name)[0])
     con = info.data
-    con['content'] = content
+    con['notebook_list'] = notebook_lst
     return render(request, "index.html", con)
 
 
@@ -60,7 +46,17 @@ def modify(request, name):
     return render(request, "modify.html", con)
 
 
+unavailable_char = '\/:*?"<>|'
+
+
 def available_filename(name, path):
+    name = name.lstrip()
+    if name == ".md":
+        now_time = datetime.datetime.now()
+        now_time_str = now_time.strftime("%Y-%m-%d-%H-%M-%S")
+        name = now_time_str + ".md"
+    for c in unavailable_char:
+        name = name.replace(c, "_")
     if not os.path.exists(os.path.join(path, name)):
         return name
     cnt = 1

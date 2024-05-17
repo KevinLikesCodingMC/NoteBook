@@ -16,8 +16,11 @@
 <div class="main-content">
     <div class="main-content-left">
         <div class="main-content-left-card">
-            <div id="editor-html-view">
-                <textarea style="display:none;">{{ content|safe }}</textarea>
+            <div class="markdown-body editormd-html-preview">
+                <h1>Notebook List</h1>
+                {% for name in notebook_list %}
+                <a href="/notebook/{{ name }}/">{{ name }}</a> <br>
+                {% endfor %}
             </div>
         </div>
     </div>
@@ -28,6 +31,5 @@
         <a class = "blue-link" href="/edit/new/">create new notebook</a>
     </div>
 </div>
-<script src="/resource/notebook/editor-html-view.js"></script>
 </body>
 </html>

@@ -1,3 +1,3 @@
 data = {
-    'version': '1.0-SNAPSHOT-2',
+    'version': '1.0-SNAPSHOT-3',
 }

@@ -1502,7 +1502,7 @@
                 var tex  = $(this);
                 editormd.$katex.render(tex.text(), tex[0]);
                 
-                tex.find(".katex").css("font-size", "1.6em");
+                tex.find(".katex").css("font-size", "1.2em");
             });   
 
             return this;
@@ -3596,7 +3596,7 @@
         };
 
         markedRenderer.paragraph = function(text) {
-            var isTeXInline     = /\$\$(.*)\$\$/g.test(text);
+            var isTeXInline     = /\$(.*)\$/g.test(text);
             var isTeXLine       = /^\$\$(.*)\$\$$/.test(text);
             var isTeXAddClass   = (isTeXLine)     ? " class=\"" + editormd.classNames.tex + "\"" : "";
             var isToC           = (settings.tocm) ? /^(\[TOC\]|\[TOCM\])$/.test(text) : /^\[TOC\]$/.test(text);
@@ -3604,7 +3604,7 @@
             
             if (!isTeXLine && isTeXInline) 
             {
-                text = text.replace(/(\$\$([^\$]*)\$\$)+/g, function($1, $2) {
+                text = text.replace(/(\$([^\$]*)\$)+/g, function($1, $2) {
                     return "<span class=\"" + editormd.classNames.tex + "\">" + $2.replace(/\$/g, "") + "</span>";
                 });
             } 
@@ -4016,7 +4016,7 @@
                 div.find("." + editormd.classNames.tex).each(function(){
                     var tex  = $(this);                    
                     katex.render(tex.html().replace(/&lt;/g, "<").replace(/&gt;/g, ">"), tex[0]);                    
-                    tex.find(".katex").css("font-size", "1.6em");
+                    tex.find(".katex").css("font-size", "1.2em");
                 });
             };
             
