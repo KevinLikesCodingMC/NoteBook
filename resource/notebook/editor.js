@@ -21,7 +21,7 @@ $(function() {
             ]
         },
         imageUpload    : true,
-        imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+        imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "webp", "svg"],
         imageUploadURL : "/upload/image/",
     });
 });
